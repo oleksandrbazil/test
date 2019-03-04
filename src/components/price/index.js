@@ -1,3 +1,3 @@
 import React from "react";
 
-export default ({ price }) => <span className="price">{`$ ${price}`}</span>;
+export default ({ price }) => <div className="price">{`$ ${price}`}</div>;

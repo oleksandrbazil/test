@@ -22,10 +22,7 @@ main {
   display: inline-block;
   border: 2px solid black;
   text-align: left;
-}
-
-.area {
-  color: #333333;
+  min-height: 300px;
 }
 
 .price {
@@ -34,6 +31,7 @@ main {
 
 .carousel-item {
   background-color: #333333;
+  text-align: center;
 }
 
 .carousel-caption {

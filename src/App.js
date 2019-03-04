@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios";
 import HouseMap from "./components/house-map";
 import { Container, Row, Col } from "react-bootstrap";
+import TemplateSwitcher from "./components/template-switcher";
 
 const DATA_URL = "http://demo4452328.mockable.io/properties";
 const TEMPLATES_URL = "http://demo4452328.mockable.io/templates";
@@ -12,7 +13,14 @@ class App extends Component {
     super(props);
     this.state = {
       data: [],
-      templates: []
+      templates: [],
+      templateColors: {
+        0: "secondary", // defaut color for case when template can't be found by id
+        1: "primary",
+        2: "dark",
+        3: "success"
+      },
+      currentTemplateId: 0
     };
   }
 
@@ -25,11 +33,12 @@ class App extends Component {
     });
   }
 
+  setCurrentTemplateId(id = 0) {
+    this.setState({ currentTemplateId: id });
+  }
+
   render() {
-    const dataArray = this.state.data;
-    const firstTemplate = this.state.templates.find(
-      template => template.id === 3
-    );
+    const { data, templates, templateColors, currentTemplateId } = this.state;
 
     return (
       <div className="App">
@@ -37,15 +46,43 @@ class App extends Component {
         <main>
           <Container fluid>
             <Row>
-              {dataArray.map((item, index) => (
-                <Col md="6" xl="4" className="mb-4">
-                  <HouseMap
-                    key={`item-${index}`}
-                    template={firstTemplate}
-                    data={item}
-                  />
-                </Col>
-              ))}
+              <TemplateSwitcher
+                templates={templates}
+                templateColors={templateColors}
+                onClick={e => this.setCurrentTemplateId(e)}
+              />
+            </Row>
+            <Row>
+              {data.map((item, index) => {
+                let randomTemplate, currentTemplate;
+
+                randomTemplate =
+                  templates[Math.floor(Math.random() * templates.length)];
+
+                // try to find current template in templates array
+                currentTemplate = templates.find(
+                  template => template.id === currentTemplateId
+                );
+
+                // if current template not found set as random
+                if (!currentTemplate) {
+                  currentTemplate = randomTemplate;
+                }
+
+                // define template color according to currentTemplate
+                let templateColor = currentTemplate
+                  ? templateColors[currentTemplate.id]
+                  : templateColors[0];
+                return (
+                  <Col md="6" xl="4" className="mb-4" key={`item-${index}`}>
+                    <HouseMap
+                      template={currentTemplate}
+                      templateColor={templateColor}
+                      data={item}
+                    />
+                  </Col>
+                );
+              })}
             </Row>
           </Container>
         </main>

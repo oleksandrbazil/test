@@ -2,23 +2,9 @@ import React from "react";
 import DynamicComponent from "../dynamic-component";
 import { Card } from "react-bootstrap";
 
-const HouseMap = ({ data, template }) => {
-  let bg = "light";
-  switch (template.id) {
-    case 1:
-      bg = "primary";
-      break;
-    case 2:
-      bg = "dark";
-      break;
-    case 3:
-      bg = "success";
-      break;
-    default:
-      break;
-  }
+const HouseMap = ({ data, template, templateColor }) => {
   return (
-    <Card bg={bg} text="white" className="house">
+    <Card bg={templateColor} text="white" className="house">
       <Card.Body>
         {template.template.map((item, index) => {
           return (
@@ -38,7 +24,8 @@ HouseMap.defaultProps = {
   template: {
     id: 0,
     template: []
-  }
+  },
+  templateColor: null
 };
 
 export default HouseMap;
