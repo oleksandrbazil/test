@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
-import DynamicComponent from "./components/dynamic-component";
+import HouseMap from "./components/house-map";
 
 const DATA_URL = "http://demo4452328.mockable.io/properties";
 const TEMPLATES_URL = "http://demo4452328.mockable.io/templates";
@@ -26,6 +26,9 @@ class App extends Component {
 
   render() {
     const dataArray = this.state.data;
+    const firstTemplate = this.state.templates.find(
+      template => template.id === 3
+    );
 
     return (
       <div className="App">
@@ -33,8 +36,7 @@ class App extends Component {
         <main>
           {dataArray.map((item, index) => (
             <div key={`item-${index}`}>
-              test
-              <DynamicComponent {...item} />
+              <HouseMap template={firstTemplate} data={item} />
             </div>
           ))}
         </main>
