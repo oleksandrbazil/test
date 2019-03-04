@@ -1,3 +1,3 @@
 import React from "react";
 
-export default ({ area }) => <div>{area}</div>;
+export default ({ area }) => <small className="area">{area}</small>;
